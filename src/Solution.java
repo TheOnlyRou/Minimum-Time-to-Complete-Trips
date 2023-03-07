@@ -45,10 +45,34 @@ public class Solution {
         return timeTick;
     }
 
+    public long minimumTime2(int[] time, int totalTrips) {
+        int n = time.length;
+        int minTime = Arrays.stream(time).min().orElse(0);
+        long left = minTime * (long) totalTrips / n;
+        long right = left + minTime;
+
+        while (left < right) {
+            long mid = (left + right) / 2;
+            long trips = 0;
+            for (int t : time) {
+                trips += mid / t;
+            }
+            if (trips < totalTrips) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
+
+
     public static void main(String[] args) {
         System.out.println(new Solution().minimumTime(new int[]{1, 2, 3}, 5));
         System.out.println(new Solution().minimumTime(new int[]{2}, 1));
-        System.out.println(new Solution().minimumTime(new int[]{35526, 68271, 53295, 85312, 98439, 20401, 12567, 75537, 13042,
+        System.out.println(new Solution().minimumTime2(new int[]{35526, 68271, 53295, 85312, 98439, 20401, 12567, 75537, 13042,
                 3015, 17945, 51706, 8379, 9020, 68149, 90591, 69251, 9417, 78418, 35804, 36630, 93100, 14223, 27099, 65124, 38701, 93629,
                 82300, 78404, 72046, 35760, 11057, 60001, 55960, 96428, 49527, 87398, 89804, 45956, 46031, 48904, 35592, 66810, 2777,
                 75831, 753, 82438, 19950, 57812, 24402, 51134, 20588, 25909, 80046, 36073, 71308, 94062, 89630, 18090, 93549, 23207,
